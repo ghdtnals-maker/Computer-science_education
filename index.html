@@ -3,12 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>2022 개정 정보과 성취기준 빈칸 학습 (타임어택 2분)</title>
-  
-  <!-- Firebase CDN (PC/모바일 간 실시간 데이터 연동) -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
+  <title>2022 개정 정보과 성취기준 빈칸 학습 (랜덤 빈칸)</title>
   <style>
     :root {
       --primary-color: #00897b;
@@ -34,136 +29,13 @@
       line-height: 1.6;
       padding: 20px;
     }
-    .container { max-width: 1200px; margin: 0 auto; }
+    .container { max-width: 1000px; margin: 0 auto; }
     
-    header { text-align: center; margin-bottom: 20px; }
+    header { text-align: center; margin-bottom: 30px; }
     header h1 { font-size: 1.8rem; font-weight: 700; color: #1e293b; margin-bottom: 6px; }
     header p { color: var(--text-muted); font-size: 0.95rem; }
 
-    /* 레이아웃 구조 */
-    .quiz-layout {
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
-    }
-    .quiz-main {
-      flex: 1;
-      min-width: 0;
-    }
-
-    /* 우측 고정 사이드바 */
-    .sidebar-right {
-      width: 250px;
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 16px;
-      position: sticky;
-      top: 20px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    }
-    .sidebar-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--primary-color);
-      border-bottom: 2px solid #e2e8f0;
-      padding-bottom: 8px;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .user-profile-box {
-      background: #f1f5f9;
-      border-radius: 8px;
-      padding: 10px;
-      margin-bottom: 14px;
-      font-size: 0.9rem;
-    }
-    .user-profile-box div {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 4px;
-    }
-    .user-profile-box div:last-child { margin-bottom: 0; }
-    .timer-box {
-      background: #fffbebf5;
-      border: 1px solid #fde68a;
-      border-radius: 8px;
-      padding: 10px;
-      text-align: center;
-      margin-bottom: 14px;
-    }
-    .timer-box .time-num {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: #d97706;
-    }
-    .rank-list {
-      list-style: none;
-      font-size: 0.85rem;
-      max-height: 280px;
-      overflow-y: auto;
-    }
-    .rank-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 6px 4px;
-      border-bottom: 1px dashed #e2e8f0;
-    }
-    .rank-item.my-rank {
-      font-weight: bold;
-      color: var(--primary-color);
-      background: #e6fffa;
-      border-radius: 4px;
-    }
-
-    /* 닉네임/비밀번호 입력 모달 */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(15, 23, 42, 0.75);
-      display: flex; justify-content: center; align-items: center;
-      z-index: 9999;
-    }
-    .modal-content {
-      background: white;
-      padding: 28px;
-      border-radius: 12px;
-      width: 90%;
-      max-width: 380px;
-      text-align: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    }
-    .modal-content h2 { margin-bottom: 8px; font-size: 1.3rem; color: #1e293b; }
-    .modal-content p { font-size: 0.85rem; color: #64748b; margin-bottom: 16px; }
-    .modal-input {
-      width: 100%;
-      padding: 10px 14px;
-      border: 2px solid #cbd5e1;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      margin-bottom: 12px;
-      outline: none;
-    }
-    .modal-input:focus { border-color: var(--primary-color); }
-    .modal-btn {
-      width: 100%;
-      padding: 10px;
-      background: var(--primary-color);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 1rem;
-      cursor: pointer;
-      margin-top: 4px;
-      transition: background 0.2s;
-    }
-    .modal-btn:hover { background: var(--primary-hover); }
-    .modal-btn:disabled { background: #94a3b8; cursor: not-allowed; }
-
-    /* 탭 메뉴 */
+    /* 과목 탭 */
     .tabs-nav {
       display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;
       border-bottom: 1px solid #cbd5e1; padding-bottom: 0; align-items: flex-end;
@@ -179,7 +51,7 @@
       color: var(--primary-color); background: var(--card-bg); border-radius: 4px 4px 0 0;
     }
 
-    /* 서브 단원 메뉴 */
+    /* 단원 서브 탭 */
     .unit-selector {
       display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;
       padding: 12px; background: #f1f5f9; border-radius: 8px;
@@ -224,7 +96,7 @@
     }
     .quiz-item { margin-bottom: 14px; font-size: 1.02rem; line-height: 1.8; color: #334155; padding-left: 8px; }
 
-    /* 내용체계 표 */
+    /* 내용체계 표 스타일 */
     .content-table {
       width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 20px;
       background: #ffffff; font-size: 0.95rem; border-radius: 8px; overflow: hidden;
@@ -241,7 +113,10 @@
     }
     .content-table td { line-height: 1.8; color: #334155; }
 
-    .section-divider { border: 0; height: 1px; background: #cbd5e1; margin: 24px 0; }
+    /* 영역 구분선 및 소제목 */
+    .section-divider {
+      border: 0; height: 1px; background: #cbd5e1; margin: 24px 0;
+    }
     .sub-section-title {
       font-size: 1.1rem; font-weight: 700; color: #1e293b; margin-bottom: 14px;
       padding-left: 10px; border-left: 4px solid var(--primary-color);
@@ -259,30 +134,14 @@
     
     .ans-hint { font-size: 0.9rem; color: #2563eb; font-weight: bold; margin-left: 6px; }
     .hidden { display: none !important; }
-
-    @media (max-width: 850px) {
-      .quiz-layout { flex-direction: column; }
-      .sidebar-right { width: 100%; position: static; }
-    }
   </style>
 </head>
 <body>
 
-<!-- 닉네임 & 비밀번호 입력 모달 -->
-<div id="nicknameModal" class="modal-overlay">
-  <div class="modal-content">
-    <h2>🔐 학습자 로그인</h2>
-    <p>닉네임과 비밀번호를 입력하고 학습을 시작하세요.</p>
-    <input type="text" id="nicknameInput" class="modal-input" placeholder="닉네임 (최대 8자)" maxlength="8" autocomplete="off" />
-    <input type="password" id="passwordInput" class="modal-input" placeholder="비밀번호 입력" maxlength="20" autocomplete="off" />
-    <button class="modal-btn" onclick="registerOrLogin()">시작하기 / 로그인</button>
-  </div>
-</div>
-
 <div class="container">
   <header>
-    <h1>2022 개정 정보과 성취기준 마스터 (타임어택 2분)</h1>
-    <p>2분 동안 빈칸을 채워 채점할 때마다 점수를 계속 누적하세요!</p>
+    <h1>2022 개정 정보과 성취기준 마스터 (랜덤 빈칸 모드)</h1>
+    <p>성취기준 원문에서 실행 시마다 랜덤하게 빈칸이 뚫립니다.</p>
   </header>
 
   <nav class="tabs-nav">
@@ -296,63 +155,20 @@
 
   <div id="unitSelector" class="unit-selector"></div>
 
-  <div class="quiz-layout">
-    <!-- 문제 영역 -->
-    <div class="quiz-main">
-      <div class="controls">
-        <div class="btn-group">
-          <button class="action-btn btn-shuffle" onclick="generateQuiz(true)">🔀 문제 섞기 (재배치)</button>
-          <button class="action-btn btn-check" onclick="checkAnswers(true)">✅ 제출 및 채점</button>
-          <button class="action-btn btn-toggle-ans" onclick="toggleAnswers()">👁️ 정답 보기</button>
-          <button class="action-btn btn-reset" onclick="resetInputs()">🔄 초기화</button>
-        </div>
-        <div class="score-board" id="scoreDisplay">총 빈칸: -개</div>
-      </div>
-
-      <main id="quizContent" class="quiz-card"></main>
+  <div class="controls">
+    <div class="btn-group">
+      <button class="action-btn btn-shuffle" onclick="generateQuiz(true)">🔀 문제 섞기 (빈칸 재배치)</button>
+      <button class="action-btn btn-check" onclick="checkAnswers()">✅ 정답 확인</button>
+      <button class="action-btn btn-toggle-ans" onclick="toggleAnswers()">👁️ 정답 보기</button>
+      <button class="action-btn btn-reset" onclick="resetInputs()">🔄 초기화</button>
     </div>
-
-    <!-- 우측 프로필/랭킹 사이드바 -->
-    <aside class="sidebar-right">
-      <div class="sidebar-title">⏱️ 남은 시간</div>
-      <div class="timer-box">
-        <div class="time-num" id="timerDisplay">02:00</div>
-      </div>
-
-      <div class="sidebar-title">👤 내 정보</div>
-      <div class="user-profile-box">
-        <div><span>닉네임:</span> <strong id="userNickname">미설정</strong></div>
-        <div><span>누적 점수:</span> <strong id="userScore">0점</strong></div>
-        <div><span>전체 순위:</span> <strong id="userRank">- 위</strong></div>
-      </div>
-
-      <div class="sidebar-title">🏆 실시간 누적 랭킹</div>
-      <ul class="rank-list" id="rankList">
-        <!-- 실시간 DB 연동 유저 랭킹 목록 -->
-      </ul>
-      <button onclick="logout()" style="width:100%; margin-top:10px; padding:6px; background:#e2e8f0; border:none; border-radius:6px; cursor:pointer; font-size:0.8rem; color:#475569;">로그아웃 / 계정 전환</button>
-    </aside>
+    <div class="score-board" id="scoreDisplay">점수: - / -</div>
   </div>
+
+  <main id="quizContent" class="quiz-card"></main>
 </div>
 
 <script>
-// Firebase 설정 (실제 본인의 Firebase URL로 변경하면 글로벌 실시간 랭킹이 연동됩니다)
-const firebaseConfig = {
-  databaseURL: "https://info2022-quiz-default-rtdb.firebaseio.com"
-};
-
-let isFirebaseConnected = false;
-let dbRef = null;
-
-try {
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-  }
-  dbRef = firebase.database().ref("users");
-} catch (e) {
-  console.warn("Firebase 초기화 안됨 -> 로컬 모드로 동작합니다.");
-}
-
 const categories = {
     '설계': [
         { id: '총론', name: '총론 (인간상 및 핵심 역량)' },
@@ -404,6 +220,7 @@ const db = {
         { q: "디지털 문화 소양은 디지털 의사 소통·협업 능력, 디지털 윤리의식, 디지털 기술 활용 능력을 포함한다." },
         { q: "인공지능 소양은 인공지능 문제 해결력, 데이터 문해력, 인공지능 윤리의식을 포함한다." }
     ],
+    // [중등, 고등, 인기, 데과, 소생 데이터는 이전 코드와 동일하게 생략 없이 모두 유지]
     '중등_성취기준_컴퓨팅': [
         { type: 'table', data: {
             ideas: ["하드웨어와 소프트웨어의 유기적 연결을 통해 동작하는 컴퓨팅 시스템은 사회적, 기술적 가치를 높이는 데 활용된다.", "컴퓨팅 시스템을 설계하는 것은 시스템에 대한 전체 흐름과 자원 할당의 가치를 이해하는 데 도움을 준다."],
@@ -482,7 +299,7 @@ const db = {
         { q: "[해설] [9정04-03] 이미지, 소리, 글자 등의 데이터를 활용하여 인공지능 시스템을 학습시키고 학습한 시스템을 활용하여 문제를 해결하는 과정을 수행할 수 있어야 한다." },
         { q: "[해설] [9정04-05] 인공지능 학습에 필요한 데이터의 수집과 활용에서 나타날 수 있는 여러 가지 현실적인 문제들에 대해 법적, 사회적, 윤리적으로 타당성을 가지는 해결 방안을 제시할 수 있어야 강구해야 한다." },
         { q: "[고려사항] 인공지능 시스템 적용 시, 학생이 익숙하게 활용할 수 있는 프로그래밍 언어를 사용하여 학습에 인지적 부하가 적은 형태로 교수⋅학습 활동을 구성하도록 한다." },
-        { q: "[고려사항] 인공지능 윤리는 개인의 성향이나 문제에 대한 관점에 따라 서로 다른 주장이 펼칠 수 있다. 학생의 개별적인 의견을 최대한 존중하고 근거를 가지고 논리적으로 자신의 의견을 주장할 수 있도록 활동을 구성하도록 한다." }
+        { q: "[고려사항] 인공지능 윤리는 개인의 성향이나 문제에 대한 관점에 따라 서로 다른 주장을 펼칠 수 있다. 학생의 개별적인 의견을 최대한 존중하고 근거를 가지고 논리적으로 자신의 의견을 주장할 수 있도록 활동을 구성하도록 한다." }
     ],
     '중등_성취기준_디지털문화': [
         { type: 'table', data: {
@@ -615,7 +432,7 @@ const db = {
         { q: "[해설] [12인기02-01] 전통적 프로그래밍과 대비되는 기계학습의 특성을 이해하여 기계학습 기반의 인공지능을 적용할 문제를 판단하고, 문제 해결에 적합한 데이터를 수집할 수 있어야 한다. 이 과정에서 나타날 수 있는 데이터의 편향이 인공지능의 학습에 영향을 미칠 수 있음을 고려하여 데이터의 수집과 활용에 공정성을 추구할 수 있어야 한다." },
         { q: "[해설] [12인기02-02] 기계학습에 사용할 데이터를 수집한 후, 결측치와 이상치의 유무 파악하고 문제 해결에 필요한 속성이 무엇인지 선별한 다음 문제 해결에 적합한 형태로 전처리할 수 있어야 한다." },
         { q: "[해설] [12인기02-03] 기계학습의 유형을 지도학습과 비지도학습, 강화학습 등으로 구분하고, 해결해야 하는 문제의 특성을 고려하여 문제 해결에 적합한 유형을 선정할 수 있어야 한다. 또한, 분류, 예측, 군집 등에 활용하는 기계학습 알고리즘을 이해하여 문제 해결에 적합한 알고리즘을 선정할 수 있어야 한다." },
-        { q: "[해설] [12인기02-06] 딥러닝을 기반으로 하는 컴퓨터 비전, 음성 인식, 자연어처리 기술을 구현하는 방식을 이용하고, 적합한 딥러닝 기술을 활용하여 실생활 및 다양한 학문 분야의 문제를 해결할 수 있어야 한다. 문제 해결에 있어 딥러닝을 활용해 문제를 해결한 경우와 다른 방법으로 문제를 해결한 경우의 차이점을 설명할 수 있어야 한다." },
+        { q: "[해설] [12인기02-06] 딥러닝을 기반으로 하는 컴퓨터 비전, 음성 인식, 자연어처리 기술을 구현하는 방식을 이용하고, 적합한 딥러닝 기술을 활용하여 실생활 및 다양한 학문 분야의 문제를 해결할 수 있어야 한다. 문제 해결에 있어 딥러닝을 활용해 문제를 해결하는 경우와 다른 방법으로 문제를 해결한 경우의 차이점을 설명할 수 있어야 한다." },
         { q: "[고려사항] 해결하고자 하는 문제에 따라 기계학습의 사용이 적합한지를 판단할 수 있도록 적절한 문제 상황을 선정하도록 하며, 기계학습에서 데이터의 중요성을 인식하고, 데이터를 수집하는 과정에서 데이터가 편향되지 않게 충분히 안내하도록 한다." },
         { q: "[고려사항] 기계학습과 딥러닝을 구현하는 과정에서 학습자의 수준에 따라 코드 작성의 방식을 달리 구성할 수 있다. 프로그래밍 역량이 낮은 학생은 이미 작성된 코드를 실행시켜 코드를 이해한 후 차츰 코드 일부를 수정하는 방식으로 학습할 수 있도록 하고, 프로그래밍 역량이 높은 학생은 작성이 완료되지 않은 코드를 스스로 완성하여 실행시킬 수 있도록 하는 등 교수⋅학습 단계를 세부적으로 구성하여 학습자의 흥미가 유지되도록 한다. 또한, 기계학습과 딥러닝을 코드로 구현하는 학습을 원활하게 진행하기 위해, 다양한 라이브러리 활용 방법을 충분히 안내한다." },
         { q: "[고려사항] 문제 해결에 사용된 데이터와 기계학습 유형, 기계학습 알고리즘이 해결하고자 하는 문제의 특성에 비추어 적합한지를 평가한다. 또한, 이미 개발되어 있는 딥러닝 프로그램 코드의 활용을 권장하되 실생활 및 다양한 학문 분야의 문제를 스스로 생각하여 해결할 수 있도록 교수⋅학습을 구성하고, 학생의 학습 과정과 창의적인 아이디어를 중심으로 평가 루브릭을 작성하여 평가하도록 한다." }
@@ -794,7 +611,7 @@ const db = {
         { type: 'table', data: {
             ideas: ["소프트웨어 스타트업은 창의적인 아이디어를 실제로 구현하고, 사회적 경제적 가치를 창출한다.", "소프트웨어 스타트업 프로젝트는 윤리적이고 협력적인 문제 해결 과정이 필요하다."],
             knowledge: ["소프트웨어 스타트업의 개념", "소프트웨어 스타트업 프로젝트"],
-            process: ["사용자의 요구 분석하기", "스타트업 아이디어 표현하기", "스타트업 프로젝트에 적합한 소프트웨어 구현하기"],
+            process: ["소프트웨어 스타트업 사례 탐색하기", "사용자의 요구 분석하기", "스타트업 아이디어 표현하기", "스타트업 프로젝트에 적합한 소프트웨어 구현하기"],
             value: ["소프트웨어와 융합을 통해 새로운 가치를 창출하는 자세", "협력적으로 문제를 해결하고 공유하는 태도", "개발한 소프트웨어의 가치에 대한 성찰"]
         }},
         { q: "[12소생05-01] 소프트웨어 스타트업의 개념을 이해하고 새로운 가치를 창출하는 소프트웨어 스타트업 사례를 분석한다." },
@@ -809,280 +626,14 @@ const db = {
     ]
 };
 
-// 전역 변수
-let currentTab = '설계';
+let currentTab = '설계'; // 기본 탭 설정
 let currentUnit = 'all';
 let showAnswers = false;
 
-// 유저 & 타이머 변수 (제한시간 120초)
-let currentUser = { name: '', score: 0 };
-let timeLeft = 120;
-let timerInterval = null;
-let isSubmitted = false;
-
 window.onload = function() {
-  listenToRankings();
-  loadUserData();
   renderUnitSelector();
   generateQuiz(false);
-  
-  document.getElementById('passwordInput').addEventListener('keyup', function(e) {
-    if (e.key === 'Enter') registerOrLogin();
-  });
 };
-
-/* Firebase 타임아웃 래퍼 함수 */
-function fetchWithTimeout(promise, ms = 2500) {
-  return new Promise((resolve, reject) => {
-    const timer = setTimeout(() => {
-      reject(new Error("Firebase 서버 응답 시간 초과"));
-    }, ms);
-    promise.then(
-      (res) => { clearTimeout(timer); resolve(res); },
-      (err) => { clearTimeout(timer); reject(err); }
-    );
-  });
-}
-
-/* 랭킹 표시 (Firebase 연동 실패 시 로컬스토리지 랭킹 표시) */
-function listenToRankings() {
-  if (!dbRef) {
-    updateLocalRankings();
-    return;
-  }
-  
-  dbRef.on('value', (snapshot) => {
-    isFirebaseConnected = true;
-    const data = snapshot.val();
-    const rankListEl = document.getElementById('rankList');
-    if (!data) {
-      rankListEl.innerHTML = '<li class="rank-item" style="color:#94a3b8; justify-content:center;">등록된 유저가 없습니다.</li>';
-      return;
-    }
-
-    let userList = Object.keys(data).map(key => ({
-      name: key,
-      score: data[key].score || 0
-    }));
-
-    userList.sort((a, b) => b.score - a.score);
-
-    let rankHtml = '';
-    userList.forEach((user, index) => {
-      const isMe = currentUser.name === user.name ? 'my-rank' : '';
-      rankHtml += `
-        <li class="rank-item ${isMe}">
-          <span>${index + 1}. ${user.name}</span>
-          <strong>${user.score}점</strong>
-        </li>
-      `;
-    });
-    rankListEl.innerHTML = rankHtml;
-
-    if (currentUser.name) {
-      const myRank = userList.findIndex(u => u.name === currentUser.name) + 1;
-      document.getElementById('userRank').textContent = myRank > 0 ? `${myRank} 위` : '- 위';
-      
-      const myData = userList.find(u => u.name === currentUser.name);
-      if (myData) {
-        currentUser.score = myData.score;
-        document.getElementById('userScore').textContent = `${currentUser.score}점`;
-      }
-    }
-  }, (error) => {
-    console.warn("Firebase 랭킹 연결 지연 -> 로컬 모드 전환", error);
-    isFirebaseConnected = false;
-    updateLocalRankings();
-  });
-}
-
-function updateLocalRankings() {
-  const rankListEl = document.getElementById('rankList');
-  let localUsers = JSON.parse(localStorage.getItem('info_quiz_all_users') || '{}');
-  
-  let userList = Object.keys(localUsers).map(key => ({
-    name: key,
-    score: localUsers[key].score || 0
-  }));
-
-  if (userList.length === 0) {
-    rankListEl.innerHTML = '<li class="rank-item" style="color:#94a3b8; justify-content:center;">등록된 유저가 없습니다.</li>';
-    return;
-  }
-
-  userList.sort((a, b) => b.score - a.score);
-
-  let rankHtml = '';
-  userList.forEach((user, index) => {
-    const isMe = currentUser.name === user.name ? 'my-rank' : '';
-    rankHtml += `
-      <li class="rank-item ${isMe}">
-        <span>${index + 1}. ${user.name}</span>
-        <strong>${user.score}점</strong>
-      </li>
-    `;
-  });
-  rankListEl.innerHTML = rankHtml;
-
-  if (currentUser.name) {
-    const myRank = userList.findIndex(u => u.name === currentUser.name) + 1;
-    document.getElementById('userRank').textContent = myRank > 0 ? `${myRank} 위` : '- 위';
-  }
-}
-
-function loadUserData() {
-  const savedUser = localStorage.getItem('info_quiz_user');
-  if (savedUser) {
-    currentUser = JSON.parse(savedUser);
-    document.getElementById('nicknameInput').value = currentUser.name || '';
-  }
-  document.getElementById('nicknameModal').style.display = 'flex';
-}
-
-/* 닉네임 + 비밀번호 로그인 (Firebase 미연동/타임아웃 발생 시 로컬스토리지 자동 접속) */
-function registerOrLogin() {
-  const name = document.getElementById('nicknameInput').value.trim();
-  const password = document.getElementById('passwordInput').value.trim();
-  const loginBtn = document.querySelector('.modal-btn');
-
-  if (!name || !password) {
-    alert('닉네임과 비밀번호를 모두 입력해 주세요!');
-    return;
-  }
-
-  loginBtn.innerText = "확인 중...";
-  loginBtn.disabled = true;
-
-  // 로컬스토리지 기반 로그인 함수 (Firebase 실패 시 자동 실행)
-  const proceedWithLocalStorage = (noticeMsg) => {
-    let localUsers = JSON.parse(localStorage.getItem('info_quiz_all_users') || '{}');
-    
-    if (localUsers[name]) {
-      if (localUsers[name].password === password) {
-        currentUser.name = name;
-        currentUser.score = localUsers[name].score || 0;
-        localStorage.setItem('info_quiz_user', JSON.stringify(currentUser));
-        document.getElementById('nicknameModal').style.display = 'none';
-        updateProfileUI();
-        startTimer();
-        updateLocalRankings();
-        if (noticeMsg) {
-          alert(`${noticeMsg}\n\n👋 환영합니다, ${name}님! (로컬 모드로 접속되었습니다)`);
-        } else {
-          alert(`👋 환영합니다, ${name}님!`);
-        }
-      } else {
-        alert('❌ 비밀번호가 일치하지 않습니다.');
-      }
-    } else {
-      localUsers[name] = { password: password, score: 0 };
-      localStorage.setItem('info_quiz_all_users', JSON.stringify(localUsers));
-      
-      currentUser.name = name;
-      currentUser.score = 0;
-      localStorage.setItem('info_quiz_user', JSON.stringify(currentUser));
-      document.getElementById('nicknameModal').style.display = 'none';
-      updateProfileUI();
-      startTimer();
-      updateLocalRankings();
-      if (noticeMsg) {
-        alert(`${noticeMsg}\n\n🎉 신규 학습자 [${name}] 계정이 생성되었습니다! (로컬 모드)`);
-      } else {
-        alert(`🎉 신규 학습자 [${name}] 계정이 생성되었습니다!`);
-      }
-    }
-  };
-
-  if (!dbRef) {
-    proceedWithLocalStorage();
-    loginBtn.innerText = "시작하기 / 로그인";
-    loginBtn.disabled = false;
-    return;
-  }
-
-  // Firebase 연결 시도 (2.5초 이내 응답 없으면 로컬 모드로 자동 넘어가 학습 진행)
-  fetchWithTimeout(dbRef.child(name).once('value'), 2500)
-    .then((snapshot) => {
-      isFirebaseConnected = true;
-      if (snapshot.exists()) {
-        const userData = snapshot.val();
-        if (userData.password === password) {
-          currentUser.name = name;
-          currentUser.score = userData.score || 0;
-          localStorage.setItem('info_quiz_user', JSON.stringify(currentUser));
-          
-          document.getElementById('nicknameModal').style.display = 'none';
-          updateProfileUI();
-          startTimer();
-          alert(`👋 환영합니다, ${name}님!`);
-        } else {
-          alert('❌ 비밀번호가 일치하지 않습니다.');
-        }
-      } else {
-        currentUser.name = name;
-        currentUser.score = 0;
-        
-        return dbRef.child(name).set({ password: password, score: 0 })
-          .then(() => {
-            localStorage.setItem('info_quiz_user', JSON.stringify(currentUser));
-            document.getElementById('nicknameModal').style.display = 'none';
-            updateProfileUI();
-            startTimer();
-            alert(`🎉 신규 학습자 [${name}] 계정이 생성되었습니다!`);
-          });
-      }
-    })
-    .catch((error) => {
-      console.warn("Firebase 연결 안 됨 -> 로컬 스토리지 모드로 자동 접속합니다.", error);
-      isFirebaseConnected = false;
-      proceedWithLocalStorage("⚠️ Firebase 서버 미연동 상태로 브라우저 로컬 저장소 모드로 자동 접속합니다.");
-    })
-    .finally(() => {
-      loginBtn.innerText = "시작하기 / 로그인";
-      loginBtn.disabled = false;
-    });
-}
-
-function logout() {
-  localStorage.removeItem('info_quiz_user');
-  currentUser = { name: '', score: 0 };
-  document.getElementById('nicknameInput').value = '';
-  document.getElementById('passwordInput').value = '';
-  document.getElementById('nicknameModal').style.display = 'flex';
-  clearInterval(timerInterval);
-}
-
-function updateProfileUI() {
-  document.getElementById('userNickname').textContent = currentUser.name || '미설정';
-  document.getElementById('userScore').textContent = `${currentUser.score}점`;
-}
-
-/* 2분(120초) 타이머 함수 */
-function startTimer() {
-  clearInterval(timerInterval);
-  timeLeft = 120;
-  isSubmitted = false;
-  updateTimerDisplay();
-
-  timerInterval = setInterval(() => {
-    timeLeft--;
-    updateTimerDisplay();
-
-    if (timeLeft <= 0) {
-      clearInterval(timerInterval);
-      if (!isSubmitted) {
-        alert('⏱️ 2분 제한시간이 경과하여 자동 채점합니다!');
-        checkAnswers(false);
-      }
-    }
-  }, 1000);
-}
-
-function updateTimerDisplay() {
-  const mins = String(Math.floor(timeLeft / 60)).padStart(2, '0');
-  const secs = String(timeLeft % 60).padStart(2, '0');
-  document.getElementById('timerDisplay').textContent = `${mins}:${secs}`;
-}
 
 function switchTab(tabKey) {
   currentTab = tabKey;
@@ -1116,6 +667,7 @@ function switchUnit(unitId) {
   generateQuiz(false);
 }
 
+// 배열 셔플 함수
 function shuffleArray(array) {
   const newArr = [...array];
   for (let i = newArr.length - 1; i > 0; i--) {
@@ -1125,23 +677,24 @@ function shuffleArray(array) {
   return newArr;
 }
 
+// 텍스트에서 랜덤하게 단어를 골라 빈칸(input)으로 변환하는 함수
 function createRandomBlanks(rawString) {
     const pureText = rawString.replace(/[{}]/g, '');
     
+    // 코드 및 범주 영역은 빈칸에서 제외
     const codeRegex = /^\[.*?\]\s*/;
     const codeMatch = pureText.match(codeRegex);
     const codePart = codeMatch ? codeMatch[0] : '';
     const textPart = pureText.replace(codeRegex, '');
     
+    // 빈칸을 뚫을 후보 단어 (한글/영문/숫자로 된 2글자 이상의 덩어리)
     const wordsRegex = /[가-힣a-zA-Z0-9·]{2,}/g;
     let matches = [...textPart.matchAll(wordsRegex)];
     
     if (matches.length === 0) return pureText;
     
-    let maxBlanks = Math.max(2, Math.floor(textPart.length / 10));
-    if (maxBlanks > 8) maxBlanks = 8;
-    
-    const blankCount = Math.min(matches.length, Math.floor(Math.random() * 2) + maxBlanks - 1); 
+    let maxBlanks = textPart.length > 80 ? 4 : 3;
+    const blankCount = Math.floor(Math.random() * maxBlanks) + 1; 
     const selectedMatches = [];
     const availableIndexes = Array.from(matches.keys());
     
@@ -1157,7 +710,7 @@ function createRandomBlanks(rawString) {
     let resultHtml = textPart;
     selectedMatches.forEach(match => {
         const word = match[0];
-        const inputWidth = Math.max(word.length * 18, 55);
+        const inputWidth = Math.max(word.length * 18, 50);
         const inputHtml = `<input type="text" class="blank-input" data-ans="${word}" style="width: ${inputWidth}px;" autocomplete="off" /><span class="ans-hint hidden">(${word})</span>`;
         
         resultHtml = resultHtml.substring(0, match.index) + 
@@ -1220,8 +773,8 @@ function generateQuiz(isShuffle) {
       
       const tableItem = items.find(item => item.type === 'table');
       let standards = items.filter(item => item.type !== 'table' && !item.q.startsWith('[해설]') && !item.q.startsWith('[고려사항]'));
-      let explanations = items.filter(item => item.q.startsWith('[해설]'));
-      let considerations = items.filter(item => item.q.startsWith('[고려사항]'));
+      let explanations = items.filter(item => item.type !== 'table' && item.q.startsWith('[해설]'));
+      let considerations = items.filter(item => item.type !== 'table' && item.q.startsWith('[고려사항]'));
 
       if (isShuffle) {
         standards = shuffleArray(standards);
@@ -1235,9 +788,12 @@ function generateQuiz(isShuffle) {
 
       if (standards.length > 0) {
         if (tableItem) html += `<hr class="section-divider">`;
+        
+        // '설계' 탭(총론/교과역량)인 경우 '성취기준' 타이틀을 렌더링하지 않음
         if (currentTab !== '설계') {
           html += `<div class="sub-section-title">성취기준</div>`;
         }
+        
         standards.forEach((item) => {
           html += `<div class="quiz-item">• ${createRandomBlanks(item.q)}</div>`;
         });
@@ -1271,11 +827,7 @@ function generateQuiz(isShuffle) {
   updateScoreDisplay(0, 0, false);
 }
 
-function checkAnswers(isManual = true) {
-  if (isSubmitted) return;
-  isSubmitted = true;
-  clearInterval(timerInterval);
-
+function checkAnswers() {
   const inputs = document.querySelectorAll('.blank-input');
   let correctCount = 0;
   let totalCount = 0;
@@ -1297,39 +849,6 @@ function checkAnswers(isManual = true) {
   });
 
   updateScoreDisplay(correctCount, totalCount, true);
-
-  let earnedScore = correctCount;
-  if (totalCount > 0 && correctCount === totalCount && timeLeft > 0) {
-    earnedScore += 10;
-  }
-
-  if (earnedScore > 0 && currentUser.name) {
-    currentUser.score += earnedScore;
-    localStorage.setItem('info_quiz_user', JSON.stringify(currentUser));
-    
-    // 로컬 스토리지 데이터 업데이트
-    let localUsers = JSON.parse(localStorage.getItem('info_quiz_all_users') || '{}');
-    if (!localUsers[currentUser.name]) localUsers[currentUser.name] = {};
-    localUsers[currentUser.name].score = currentUser.score;
-    localStorage.setItem('info_quiz_all_users', JSON.stringify(localUsers));
-
-    // Firebase 연동 상태 시 서버 업데이트
-    if (isFirebaseConnected && dbRef) {
-      dbRef.child(currentUser.name).update({ score: currentUser.score }).catch(err => console.warn(err));
-    } else {
-      updateLocalRankings();
-    }
-    
-    updateProfileUI();
-  }
-
-  if (isManual) {
-    if (correctCount === totalCount && totalCount > 0 && timeLeft > 0) {
-      alert(`🎉 올바르게 모두 맞추셨습니다! 기본 ${correctCount}점 + 만점 보너스 10점 총 ${earnedScore}점이 누적되었습니다!`);
-    } else {
-      alert(`채점 완료! 맞은 개수: ${correctCount} / ${totalCount} (누적 +${earnedScore}점)`);
-    }
-  }
 }
 
 function toggleAnswers() {
@@ -1351,7 +870,6 @@ function resetInputs() {
     input.classList.remove('correct', 'incorrect');
   });
   updateScoreDisplay(0, 0, false);
-  startTimer();
 }
 
 function updateScoreDisplay(correct, total, isChecked) {
@@ -1361,9 +879,10 @@ function updateScoreDisplay(correct, total, isChecked) {
     display.textContent = `총 빈칸: ${currentBlanks}개`;
   } else {
     const percentage = Math.round((correct / total) * 100);
-    display.textContent = `정답률: ${correct} / ${total} (${percentage}%)`;
+    display.textContent = `점수: ${correct} / ${total} (${percentage}점)`;
   }
 }
 </script>
 </body>
 </html>
+
